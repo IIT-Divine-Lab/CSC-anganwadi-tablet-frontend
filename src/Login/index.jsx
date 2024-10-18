@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './style.css'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
+// import axios from 'axios';
 import apiUrl from '../apiUrl';
 import { setUser } from '../redux/actions/userActions';
 import { useDispatch } from 'react-redux';
@@ -24,8 +24,25 @@ const Login = () => {
          awcentre
       }
       // console.log(userData);
-      await axios.post(apiUrl + "user", userData)
-         .then(({ data }) => {
+      // await axios.post(apiUrl + "user", userData)
+      //    .then(({ data }) => {
+      //       if (data.message === "Success") {
+      //          dispatch(setUser(data.user));
+      //          navigate('/start-assessment');
+      //       }
+      //       else
+      //          console.log("Error in submitting form");
+      //    });
+
+      fetch(apiUrl + "user", {
+         method: "POST",
+         body: JSON.stringify(userData),
+         headers: {
+            "Content-Type": "application/json"
+         }
+      })
+         .then((res) => res.json())
+         .then((data) => {
             if (data.message === "Success") {
                dispatch(setUser(data.user));
                navigate('/start-assessment');
@@ -33,7 +50,6 @@ const Login = () => {
             else
                console.log("Error in submitting form");
          });
-
    }
 
    return (
