@@ -28,19 +28,19 @@ const Struct1 = ({ activeOption, setActiveOption, question }) => {
                <div className="quesOptionContainer">
                   <div className='rowContainer' style={question.totalOptions >= 4 ? { flexWrap: "wrap" } : {}}>
                      <div className="optionContainer">
-                        <img src={question.option.o1} className={activeOption !== 1 ? "option" : "option optionActive"} />
+                        <img src={question.option.o1} alt='' className={activeOption !== 1 ? "option" : "option optionActive"} />
                         <input type="radio" name="q1" id="a1" className='chooseOption' onClick={() => { setActiveOption(1) }} />
                      </div>
                      {question.totalOptions >= 2 ? <div className="optionContainer">
-                        <img src={question.option.o2} className={activeOption !== 2 ? "option" : "option optionActive"} />
+                        <img src={question.option.o2} alt='' className={activeOption !== 2 ? "option" : "option optionActive"} />
                         <input type="radio" name="q1" id="a2" className='chooseOption' onClick={() => { setActiveOption(2) }} />
                      </div> : ""}
                      {question.totalOptions >= 3 ? <div className="optionContainer" style={question.totalOptions >= 4 ? { marginLeft: "0px", marginTop: "40px" } : {}}>
-                        <img src={question.option.o3} className={activeOption !== 3 ? "option" : "option optionActive"} />
+                        <img src={question.option.o3} alt='' className={activeOption !== 3 ? "option" : "option optionActive"} />
                         <input type="radio" name="q1" id="a3" className='chooseOption' onClick={() => { setActiveOption(3) }} />
                      </div> : ""}
                      {question.totalOptions >= 4 ? <div className="optionContainer" style={question.totalOptions >= 4 ? { marginTop: "40px" } : {}}>
-                        <img src={question.option.o4} className={activeOption !== 4 ? "option" : "option optionActive"} />
+                        <img src={question.option.o4} alt='' className={activeOption !== 4 ? "option" : "option optionActive"} />
                         <input type="radio" name="q1" id="a2" className='chooseOption' onClick={() => { setActiveOption(4) }} />
                      </div> : ""}
                   </div>

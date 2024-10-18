@@ -1,16 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Struct1 from './Struct1';
-import Struct2 from './Struct2';
-import q1s1 from "../questions/q1s1.png"
-import q1s1o1 from "../questions/q1s1o1.png"
-import q1s2 from "../questions/q1s2.png"
-import q1s2ans from "../questions/q1s2ans.png"
-import q1s1o2 from "../questions/q1s1o2.png"
-import q1s1o3 from "../questions/q1s1o3.png"
-import q1s1o4 from "../questions/q1s1o4.png"
-import q1s2active from "../questions/q1s2active.png"
-import q1s2inactive from "../questions/q1s2inactive.png"
-import q1s3 from "../questions/q1s3.mp3"
 import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
 import apiUrl from '../apiUrl';
@@ -31,12 +20,12 @@ const QuestionStructures = () => {
    const questionAnswer = useSelector(state => state.questionAnswered);
    const dispatch = useDispatch();
 
-   const fetchQuestions = async () => {
+   const fetchQuestions = useCallback(async () => {
       const { data } = await axios.post(apiUrl + "assessment/agewise", { ageGroup: user.age });
       console.log(data.questions);
       dispatch(getQuestions(data.questions));
       dispatch(currentQuestion(0));
-   };
+   }, [dispatch, user]);
    console.log(question);
 
    const saveQuestion = async () => {
@@ -63,7 +52,7 @@ const QuestionStructures = () => {
       if (questionAnswer.questions.length === undefined) {
          dispatch(firstQuestionAnswered(user._id, answer));
       }
-      else if(questionAnswer.questions.length !== allQuestions.length) {
+      else if (questionAnswer.questions.length !== allQuestions.length) {
          dispatch(questionAnswered(answer));
       }
       const { data } = await axios.post(apiUrl + "result", questionAnswer);
