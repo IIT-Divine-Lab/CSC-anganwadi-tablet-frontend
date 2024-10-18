@@ -7,10 +7,10 @@ export const getQuestions = (questions) => {
    }
 }
 
-export const currentQuestion = (question) => {
+export const currentQuestion = (counter) => {
    return {
       type: ActionTypes.CURRENT_QUESTION,
-      payload: question
+      payload: counter
    }
 }
 
@@ -18,5 +18,14 @@ export const questionAnswered = (question) => {
    return {
       type: ActionTypes.QUESTIONS_ANSWERED,
       payload: question
+   }
+}
+export const firstQuestionAnswered = (userId, questions) => {
+   return {
+      type: ActionTypes.FIRST_QUESTION_ANSWERED,
+      payload: {
+         userId,
+         questions
+      }
    }
 }

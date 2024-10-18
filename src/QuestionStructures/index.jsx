@@ -16,80 +16,95 @@ import { useDispatch, useSelector } from 'react-redux';
 import apiUrl from '../apiUrl';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { getQuestions } from '../redux/actions/assessmentActions';
+import { currentQuestion, firstQuestionAnswered, getQuestions, questionAnswered } from '../redux/actions/assessmentActions';
+
 
 const QuestionStructures = () => {
+   // const question = 0;
    const navigate = useNavigate()
    const user = useSelector(state => state.user);
    const allQuestions = useSelector(state => state.allQuestions);
-   // const question = useSelector(state => state.assessment.currentQuestion);
+   const counter = useSelector(state => state.currentQuestion);
+   const questionDet = useSelector(state => state.allQuestions)[counter];
+   const question = questionDet !== undefined ? questionDet.question : "";
+
+   const questionAnswer = useSelector(state => state.questionAnswered);
    const dispatch = useDispatch();
 
    const fetchQuestions = async () => {
       const { data } = await axios.post(apiUrl + "assessment/agewise", { ageGroup: user.age });
+      console.log(data.questions);
       dispatch(getQuestions(data.questions));
+      dispatch(currentQuestion(0));
    };
+   console.log(question);
 
-   // STRUCTURE 3
-   // const [question, setQuestion] = useState({
-   //    structure: 3,
-   //    questionText: "Circle beginning letter sound",
-   //    questionSound: q1s3,
-   //    totalOptions: 4,
-   //    option: {
-   //       o1: q1s1o1,
-   //       o2: q1s1o2,
-   //       o3: q1s1o3,
-   //       o4: q1s1o4
-   //    }
-   // });
+   const saveQuestion = async () => {
+      if (activeOption === undefined) return;
+      let answer = {
+         quesId: questionDet._id,
+         AnswerMarked: activeOption
+      }
+      if (questionAnswer.length === undefined) {
+         dispatch(firstQuestionAnswered(user._id, answer));
+      }
+      else {
+         dispatch(questionAnswered(answer));
+      }
+      dispatch(currentQuestion(counter + 1));
+      setLastQuestion(allQuestions.length - counter - 2);
+   }
+
+   const submitAssessment = async () => {
+      let answer = {
+         quesId: questionDet._id,
+         AnswerMarked: activeOption
+      }
+      if (questionAnswer.questions.length === undefined) {
+         dispatch(firstQuestionAnswered(user._id, answer));
+      }
+      else if(questionAnswer.questions.length !== allQuestions.length) {
+         dispatch(questionAnswered(answer));
+      }
+      const { data } = await axios.post(apiUrl + "result", questionAnswer);
+
+      console.log(data);
+   }
+
    useEffect(() => {
       if (user.name === undefined) navigate("/");
    });
 
    useEffect(() => {
-      if (allQuestions.length !== 0)
-         fetchQuestions()
+      if (allQuestions.length === 0)
+         fetchQuestions();
    }, [allQuestions, fetchQuestions]);
-
-   // STRUCTURE 2
-   // const [question, setQuestion] = useState({
-   //    structure: 2,
-   //    questionText: "Choose the spot where the egg is.",
-   //    questionImage: q1s2,
-   //    option: {
-   //       active: q1s2active,
-   //       inactive: q1s2inactive
-   //    },
-   //    answerImage: q1s2ans
-   // });
-
-   // STRUCTURE 1
-   // const [question, setQuestion] = useState({
-   //    structure: 1,
-   //    questionText: "Select the correct symbol inside the shape.",
-   //    questionImage: q1s1,
-   //    totalOptions: 4,
-   //    option: {
-   //       o1: q1s1o1,
-   //       o2: q1s1o2,
-   //       o3: q1s1o3,
-   //       o4: q1s1o4
-   //    }
-   // });
-   const [lastQuestion, setLastQuestion] = useState(0);
+   console.log(allQuestions.length, counter);
+   const [lastQuestion, setLastQuestion] = useState(allQuestions.length - counter - 1);
    const [activeOption, setActiveOption] = useState();
 
    return (
       <div className='questionStructure'>
          <div className='questionSubStructure'>
-            {/* <div className="quesHeadContainer">
-               <h3 className="quesHead">{question.questionText}</h3>
-            </div>
-            <div style={{ margin: "40px 0", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-               <Struct1 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
-            </div> */}
-            <div className='submitBtn'>{lastQuestion ? "Submit" : "Next"}</div>
+            {
+               question !== undefined ?
+                  <>
+                     <div className="quesHeadContainer">
+                        <h3 className="quesHead">{question.questionText}</h3>
+                     </div>
+                     <div style={{ margin: "40px 0", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                        <Struct1 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
+                     </div>
+                     {
+                        lastQuestion !== 0 ?
+                           <div className='submitBtn' onClick={saveQuestion}>Next</div>
+                           :
+                           <div className='submitBtn' onClick={submitAssessment}>Submit</div>
+                     }
+                  </>
+                  : <></>
+            }
+
          </div>
       </div>
    )
