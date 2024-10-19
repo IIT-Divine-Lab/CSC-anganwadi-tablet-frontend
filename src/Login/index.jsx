@@ -69,7 +69,7 @@ const Login = () => {
                setServerWorking(false);
             })
       }, 2000);
-   }, [serverWorking])
+   }, [])
 
    useEffect(() => {
       if (serverWorking !== true)
