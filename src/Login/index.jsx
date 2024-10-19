@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 const Login = () => {
    const navigate = useNavigate();
    const [name, setName] = useState("");
-   const [agegroup, setAgeGroup] = useState("");
+   const [age, setAgeGroup] = useState("");
    const [rollno, setRollno] = useState(Number);
    const [gender, setGender] = useState("");
    const [awcentre, setAwCentre] = useState("");
@@ -18,7 +18,7 @@ const Login = () => {
    const submitUserDetails = async () => {
       let userData = {
          name,
-         agegroup,
+         age,
          rollno,
          gender,
          awcentre
@@ -67,7 +67,7 @@ const Login = () => {
                   </div>
                   <div className='form-field-container'>
                      <label className="form-field-label">Age Group</label>
-                     <select name="ageGroup" id="ageGroup" className='form-field' value={agegroup} onChange={(e) => setAgeGroup(e.currentTarget.value)}>
+                     <select name="ageGroup" id="ageGroup" className='form-field' value={age} onChange={(e) => setAgeGroup(e.currentTarget.value)}>
                         <option value="none">Select your age group</option>
                         <option value="3-4">3 - 4</option>
                         <option value="4-5">4 - 5</option>
