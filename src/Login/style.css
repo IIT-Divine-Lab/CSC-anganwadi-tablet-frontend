@@ -24,9 +24,6 @@
    margin: 0;
 }
 
-.form-heading {
-}
-
 .form-subheading {
    padding-top: 10px;
    font-weight: 400;
@@ -47,9 +44,6 @@
    &:not(:first-child) {
       margin-top: 24px;
    }
-}
-
-.form-field-label {
 }
 
 .form-field {

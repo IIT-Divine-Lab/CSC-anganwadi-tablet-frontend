@@ -26,7 +26,6 @@ const QuestionStructures = () => {
       dispatch(getQuestions(data.questions));
       dispatch(currentQuestion(0));
    }, [dispatch, user]);
-   console.log(question);
 
    const saveQuestion = async () => {
       if (activeOption === undefined) return;
@@ -68,7 +67,6 @@ const QuestionStructures = () => {
       if (allQuestions.length === 0)
          fetchQuestions();
    }, [allQuestions, fetchQuestions]);
-   console.log(allQuestions.length, counter);
    const [lastQuestion, setLastQuestion] = useState(allQuestions.length - counter - 1);
    const [activeOption, setActiveOption] = useState();
 
