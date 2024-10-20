@@ -1,0 +1,21 @@
+[
+   {
+      "ageGroup": "5-6",
+      "question": {
+         "structure": 1,
+         "questionText": "Select the correct symbol inside the shape.",
+         "questionType": "single",
+         "questionImage": "https://ucarecdn.com/d6c61129-8222-421e-a236-44c7ab185d01/",
+         "totalOptions": 4,
+         "option": {
+            "o1": "https://ucarecdn.com/ac3e7a6f-e2a7-4309-b83b-9cf8b3613765/",
+            "o2": "https://ucarecdn.com/ac3e7a6f-e2a7-4309-b83b-9cf8b3613765/",
+            "o3": "https://ucarecdn.com/ac3e7a6f-e2a7-4309-b83b-9cf8b3613765/",
+            "o4": "https://ucarecdn.com/e2a49e86-31a0-4f86-8ac1-cc1587e0e3e5/"
+         },
+         "correctAnswer": [
+            "o2"
+         ]
+      }
+   }
+]
