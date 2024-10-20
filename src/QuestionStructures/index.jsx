@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import apiUrl from '../apiUrl';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { currentQuestion, firstQuestionAnswered, getQuestions, questionAnswered } from '../redux/actions/assessmentActions';
+import { currentQuestion, firstQuestionAnswered, getQuestions, questionAnswered, resetAssessment } from '../redux/actions/assessmentActions';
+import { resetUser } from '../redux/actions/userActions';
+import { toast } from 'react-toastify';
 
 
 const QuestionStructures = () => {
@@ -21,10 +23,20 @@ const QuestionStructures = () => {
    const dispatch = useDispatch();
 
    const fetchQuestions = useCallback(async () => {
-      const { data } = await axios.post(apiUrl + "assessment/agewise", { ageGroup: user.age });
-      console.log(data.questions);
-      dispatch(getQuestions(data.questions));
-      dispatch(currentQuestion(0));
+      await axios.post(apiUrl + "assessment/agewise", { ageGroup: user.age })
+         .then(({ data }) => {
+            console.log(data);
+            dispatch(getQuestions(data.questions));
+            dispatch(currentQuestion(0));
+         })
+         .catch(({ message }) => {
+            toast(message, {
+               type: "error",
+               autoClose: 3000,
+               theme: "colored",
+               hideProgressBar: true
+            })
+         })
    }, [dispatch, user]);
 
    const saveQuestion = async () => {
@@ -41,6 +53,7 @@ const QuestionStructures = () => {
       }
       dispatch(currentQuestion(counter + 1));
       setLastQuestion(allQuestions.length - counter - 2);
+      setActiveOption();
    }
 
    const submitAssessment = async () => {
@@ -54,9 +67,21 @@ const QuestionStructures = () => {
       else if (questionAnswer.questions.length !== allQuestions.length) {
          dispatch(questionAnswered(answer));
       }
-      const { data } = await axios.post(apiUrl + "result", questionAnswer);
-
-      console.log(data);
+      await axios.post(apiUrl + "result", { userId: questionAnswer.userId, questions: [...questionAnswer.questions, answer] })
+         .then((data) => {
+            setActiveOption();
+            dispatch(resetUser())
+            dispatch(resetAssessment())
+            console.log(data);
+         })
+         .catch(({ message }) => {
+            toast(message, {
+               type: "error",
+               autoClose: 3000,
+               theme: "colored",
+               hideProgressBar: true
+            })
+         })
    }
 
    useEffect(() => {

@@ -21,6 +21,7 @@ const Login = () => {
    const dispatch = useDispatch();
 
    const submitUserDetails = async () => {
+      setLoading(true);
       if (name === "" || age === "" || rollno === 0 || gender === "" || awcentre === "") {
          toast("Fill all details to proceed", {
             type: "warning",
@@ -41,19 +42,35 @@ const Login = () => {
             .then(({ data }) => {
                if (data.message === "Success") {
                   dispatch(setUser(data.user));
+                  setLoading(false);
                   toast("Registered. Starting assessment", {
                      type: "success",
                      autoClose: 3000,
                      theme: "colored",
                      hideProgressBar: true
                   })
-                  setTimeout(() => {
-                     navigate('/start-assessment');
-                  }, 4000)
+                  navigate('/start-assessment');
                }
-               else
+               else {
+                  setLoading(false);
                   console.log("Error in submitting form");
-            });
+                  toast("Error in registering", {
+                     type: "error",
+                     autoClose: 3000,
+                     theme: "colored",
+                     hideProgressBar: true
+                  })
+               }
+            })
+            .catch(({ message }) => {
+               setLoading(false);
+               toast(message, {
+                  type: "error",
+                  autoClose: 3000,
+                  theme: "colored",
+                  hideProgressBar: true
+               })
+            })
       }
    }
 

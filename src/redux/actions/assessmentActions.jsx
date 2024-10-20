@@ -7,6 +7,12 @@ export const getQuestions = (questions) => {
    }
 }
 
+export const resetAssessment = () => {
+   return {
+      type: ActionTypes.CLEAR_ALL
+   }
+}
+
 export const currentQuestion = (counter) => {
    return {
       type: ActionTypes.CURRENT_QUESTION,
@@ -20,6 +26,7 @@ export const questionAnswered = (question) => {
       payload: question
    }
 }
+
 export const firstQuestionAnswered = (userId, questions) => {
    return {
       type: ActionTypes.FIRST_QUESTION_ANSWERED,
