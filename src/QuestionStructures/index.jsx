@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { currentQuestion, firstQuestionAnswered, getQuestions, questionAnswered, resetAssessment } from '../redux/actions/assessmentActions';
 import { resetUser } from '../redux/actions/userActions';
 import { toast } from 'react-toastify';
+import Struct2 from './Struct2';
 
 
 const QuestionStructures = () => {
@@ -105,7 +106,12 @@ const QuestionStructures = () => {
                         <h3 className="quesHead">{question.questionText}</h3>
                      </div>
                      <div style={{ margin: "40px 0", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                        <Struct1 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
+                        {
+                           question.structure !== 4 ? 
+                           <Struct1 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
+                           :
+                           <Struct2 question={question} />
+                        }
                      </div>
                      {
                         lastQuestion !== 0 ?

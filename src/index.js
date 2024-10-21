@@ -7,13 +7,17 @@ import { Provider } from 'react-redux';
 import store from "./redux/store"
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from "react-dnd-html5-backend"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    <React.StrictMode>
       <Provider store={store}>
          <ToastContainer />
-         <App />
+         <DndProvider backend={HTML5Backend}>
+            <App />
+         </DndProvider>
       </Provider>
    </React.StrictMode>
 );
