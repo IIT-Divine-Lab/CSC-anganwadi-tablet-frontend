@@ -1,12 +1,21 @@
-.quesImage {
+.quesImageBefore {
    width: 100%;
    height: auto;
+   margin-bottom: 40px;
+}
+.quesImageAfter {
+   width: 80%;
+   display: flex;
+   justify-self: center;
+   height: auto;
+   border: 1px solid #cacaca;
+   border-radius: 10px;
 }
 
 .quesOptionContainer {
-   margin-top: 40px;
+   margin-top: 56px;
    /* margin-bottom: 60px; */
-   width: 70%;
+   width: 80%;
    /* min-height: 360px; */
    display: flex;
    flex-direction: column;
@@ -23,7 +32,7 @@
 .optionContainer {
    /* margin-top: 40px; */
    position: relative;
-   width: 150px;
+   width: 200px;
 
    &:nth-child(1),
    &:nth-child(2) {
@@ -63,47 +72,12 @@
    border: 3px solid #c7c552 !important;
 }
 
-.s2OptionImage {
-   margin: 32px 0;
-   height: 350px;
-   width: auto;
-   position: relative;
+.audioContainer {
    display: flex;
    align-items: center;
-   justify-content: center;
 }
 
-.s2OptionImage img {
-   height: 100%;
-}
-
-.options {
-   position: absolute;
-   left: 50%;
-   top: 50%;
-   transform: translate(-50%, -50%);
-}
-
-.egg {
-   width: 55px;
-   margin: 22px;
-
-   &:nth-child(even) {
-      margin-left: 84px;
-   }
-}
-
-.audioQues {
-   width: 100%;
-   height: 20px;
-   background-color: red;
-}
-
-.speaker {
-   font-size: 64px;
-   color: white;
-   background-color: #6a4a35;
-   padding: 10px;
-   border-radius: 10px;
-   cursor: pointer;
+.audioContainer > span {
+   font-size: 28px;
+   font-weight: 600;
 }
