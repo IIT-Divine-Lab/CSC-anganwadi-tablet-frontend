@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Struct1 from './Struct1';
 import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
 import apiUrl from '../apiUrl';
@@ -8,11 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { currentQuestion, firstQuestionAnswered, getQuestions, questionAnswered, resetAssessment } from '../redux/actions/assessmentActions';
 import { resetUser } from '../redux/actions/userActions';
 import { toast } from 'react-toastify';
-import Struct2 from './Struct2';
+import ParentContainer from '../Common/ParentContainer';
+import Button from '../Common/Button';
+import Structure1to4 from './Structure1-4';
+import Structure5 from './Structure5';
+import Structure6 from './Structure6';
 
 
 const QuestionStructures = () => {
-   // const question = 0;
+   const [selected, setSelected] = useState([]);
    const navigate = useNavigate()
    const user = useSelector(state => state.user);
    const allQuestions = useSelector(state => state.allQuestions);
@@ -85,6 +88,19 @@ const QuestionStructures = () => {
          })
    }
 
+   // works if structure 5th is in use
+   const handleSelection = (str) => {
+      let newSelection = [];
+      if (selected.includes(str)) {
+         newSelection = selected.filter((value) => value !== str)
+      }
+      else {
+         newSelection = [...selected, str];
+      }
+      console.log(newSelection);
+      setSelected(newSelection);
+   }
+
    useEffect(() => {
       if (user.name === undefined) navigate("/");
    });
@@ -97,34 +113,29 @@ const QuestionStructures = () => {
    const [activeOption, setActiveOption] = useState();
 
    return (
-      <div className='questionStructure'>
-         <div className='questionSubStructure'>
-            {
-               question !== undefined ?
-                  <>
-                     <div className="quesHeadContainer">
-                        <h3 className="quesHead">{question.questionText}</h3>
-                     </div>
-                     <div style={{ margin: "40px 0", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                        {
-                           question.structure !== 4 ? 
-                           <Struct1 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
-                           :
-                           <Struct2 question={question} />
-                        }
-                     </div>
-                     {
-                        lastQuestion !== 0 ?
-                           <div className='submitBtn' onClick={saveQuestion}>Next</div>
-                           :
-                           <div className='submitBtn' onClick={submitAssessment}>Submit</div>
-                     }
-                  </>
-                  : <></>
-            }
-
-         </div>
-      </div>
+      <ParentContainer>
+         {
+            question !== undefined ?
+               <>
+                  {
+                     question.structure >= 1 && question.structure <= 4 ?
+                        <Structure1to4 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
+                        : question.structure === 5 ?
+                           <Structure5 question={question} selected={selected} handleSelection={handleSelection} />
+                           : question.structure === 6 ?
+                              <Structure6 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
+                              : ""
+                  }
+                  {
+                     lastQuestion !== 0 ?
+                        <Button className='submitBtn' onClick={saveQuestion}>Next</Button>
+                        :
+                        <Button className='submitBtn' onClick={submitAssessment}>Submit</Button>
+                  }
+               </>
+               : <></>
+         }
+      </ParentContainer>
    )
 }
 
