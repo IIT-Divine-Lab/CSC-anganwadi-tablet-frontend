@@ -81,3 +81,12 @@
    font-size: 28px;
    font-weight: 600;
 }
+
+.speaker {
+   font-size: 64px;
+   color: white;
+   background-color: #6a4a35;
+   padding: 10px;
+   border-radius: 10px;
+   cursor: pointer;
+}
