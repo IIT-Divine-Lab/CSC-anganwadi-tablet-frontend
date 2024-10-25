@@ -27,7 +27,7 @@ function App() {
          <div className='TabletContainer'>
             <Router>
                <Routes>
-                  <Route path='/login' Component={Login} />
+                  <Route path='/' Component={Login} />
                   <Route path='/start-assessment' Component={QuestionStructures} />
                   {/* <Route path='/develop' element={<Struct2 question={question} />} /> */}
                   {/* <Route path='/1to4' element={<Structure1to4 />} />
