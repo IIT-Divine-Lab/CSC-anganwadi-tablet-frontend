@@ -47,9 +47,9 @@ const QuestionStructures = () => {
       if (activeOption === undefined) return;
       let answer = {
          quesId: questionDet._id,
-         AnswerMarked: activeOption
+         AnswerMarked: "o" + activeOption
       }
-      if (questionAnswer.length === undefined) {
+      if (questionAnswer.questions.length === 0) {
          dispatch(firstQuestionAnswered(user._id, answer));
       }
       else {
@@ -63,20 +63,28 @@ const QuestionStructures = () => {
    const submitAssessment = async () => {
       let answer = {
          quesId: questionDet._id,
-         AnswerMarked: activeOption
+         AnswerMarked: "o" + activeOption
       }
-      if (questionAnswer.questions.length === undefined) {
+      if (questionAnswer.questions.length === 0) {
          dispatch(firstQuestionAnswered(user._id, answer));
       }
       else if (questionAnswer.questions.length !== allQuestions.length) {
          dispatch(questionAnswered(answer));
       }
-      await axios.post(apiUrl + "result", { userId: questionAnswer.userId, questions: [...questionAnswer.questions, answer] })
-         .then((data) => {
-            setActiveOption();
-            dispatch(resetUser())
-            dispatch(resetAssessment())
-            console.log(data);
+      console.log(questionAnswer);
+
+      await axios.post(apiUrl + "result", { userId: user._id, questions: [...questionAnswer.questions, answer] })
+         .then(async ({ data }) => {
+            await axios.patch(apiUrl + "user/" + user._id, {
+               assessId: data.question._id
+            })
+               .then((res) => {
+                  setActiveOption();
+                  dispatch(resetUser())
+                  dispatch(resetAssessment())
+                  console.log(res.data);
+                  console.log(data);
+               })
          })
          .catch(({ message }) => {
             toast(message, {
@@ -106,12 +114,13 @@ const QuestionStructures = () => {
    });
 
    useEffect(() => {
-      if (allQuestions.length === 0)
+      if (allQuestions.length === 0 && user.name !== undefined)
          fetchQuestions();
-   }, [allQuestions, fetchQuestions]);
+   }, [allQuestions, fetchQuestions, user]);
    const [lastQuestion, setLastQuestion] = useState(allQuestions.length - counter - 1);
    const [activeOption, setActiveOption] = useState();
 
+   console.log(allQuestions.length - counter - 1);
    return (
       <ParentContainer>
          {
