@@ -11,7 +11,7 @@ const Structure6 = ({ activeOption, setActiveOption, question }) => {
          </Heading>
          <Body>
             <div>
-               <img className='quesImage' src={question.questionImage} alt="" />
+               <img className='quesImage' src={question?.questionImage?.after} alt="" />
             </div>
             <div className="s2OptionImage">
                <img src={question.answerImage} alt="" />

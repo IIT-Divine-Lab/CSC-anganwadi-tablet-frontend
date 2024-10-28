@@ -1,5 +1,5 @@
 .s5optionContainer {
-   min-height: 750px;
+   min-height: 800px;
    width: 100%;
    margin: 32px 0;
 
@@ -10,14 +10,16 @@
 }
 
 .s5option {
+   width: 100%;
+   height: 100%;
    display: flex;
    justify-content: center;
    align-items: center;
 }
 
 .s5option > div {
-   height: 110px;
-   width: 110px;
+   min-height: 110px;
+   min-width: 110px;
    display: flex;
    justify-content: center;
    align-items: center;

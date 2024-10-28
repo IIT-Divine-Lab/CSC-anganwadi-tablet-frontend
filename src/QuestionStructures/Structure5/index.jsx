@@ -114,7 +114,7 @@ const Structure5 = ({ question, selected, handleSelection }) => {
 
    useEffect(() => {
       if (column === 0) {
-         let quotient = question.options.length / 5;
+         let quotient = question.totalOptions / 5;
          console.log(quotient);
          setColumn(quotient);
       }
@@ -123,21 +123,23 @@ const Structure5 = ({ question, selected, handleSelection }) => {
    return (
       <>
          <Heading>
-            Select the {question.correctAnswer}
+            {question.questionText}
          </Heading>
          <div className='s5optionContainer' style={{ gridTemplateColumns: `repeat(${column},1fr)` }}>
             {
-               question.options.map((option, index) => {
-                  return <div className='s5option' key={index}>
-                     <div onClick={() => handleSelection(option.type + (index + 1))}>
+               Array.from({ length: question.totalOptions }, (_, index) => (
+                  <div className='s5option' key={index}>
+                     <div onClick={() => handleSelection("o" + (index + 1))}>
                         <img
-                           src={option.img}
-                           className={selected.includes(option.type + (index + 1)) ? 'selected' : ''}
+                           src={question.option["o" + (index + 1)]}
+                           className={selected.includes("o" + (index + 1)) ? 'selected' : ''}
                            alt=""
                         />
                      </div>
                   </div>
-               })
+               ))
+               // question.option.map((option, index) => {
+               // })
             }
          </div>
       </>

@@ -44,10 +44,22 @@ const QuestionStructures = () => {
    }, [dispatch, user]);
 
    const saveQuestion = async () => {
-      if (activeOption === undefined) return;
-      let answer = {
-         quesId: questionDet._id,
-         AnswerMarked: "o" + activeOption
+      let answer;
+      if (activeOption === undefined && question.questionType !== "multi") return;
+      if (question.questionType === "single")
+         answer = {
+            quesId: questionDet._id,
+            AnswerMarked: "o" + activeOption
+         }
+      else{
+         let a = []
+         for(let i = 0; i < selected.length; i++){
+            a.push(selected[i])
+         }
+         answer = {
+            quesId: questionDet._id,
+            AnswerMarked: a
+         }
       }
       if (questionAnswer.questions.length === 0) {
          dispatch(firstQuestionAnswered(user._id, answer));
@@ -61,9 +73,21 @@ const QuestionStructures = () => {
    }
 
    const submitAssessment = async () => {
-      let answer = {
-         quesId: questionDet._id,
-         AnswerMarked: "o" + activeOption
+      let answer;
+      if (question.questionType === "single")
+         answer = {
+            quesId: questionDet._id,
+            AnswerMarked: "o" + activeOption
+         }
+      else{
+         let a = []
+         for(let i = 0; i < selected.length; i++){
+            a.push(selected[i])
+         }
+         answer = {
+            quesId: questionDet._id,
+            AnswerMarked: a
+         }
       }
       if (questionAnswer.questions.length === 0) {
          dispatch(firstQuestionAnswered(user._id, answer));
@@ -117,7 +141,7 @@ const QuestionStructures = () => {
       if (allQuestions.length === 0 && user.name !== undefined)
          fetchQuestions();
    }, [allQuestions, fetchQuestions, user]);
-   const [lastQuestion, setLastQuestion] = useState(allQuestions.length - counter - 1);
+   const [lastQuestion, setLastQuestion] = useState(allQuestions.length === 1 ? allQuestions.length - counter : allQuestions.length - counter - 1);
    const [activeOption, setActiveOption] = useState();
 
    console.log(allQuestions.length - counter - 1);
