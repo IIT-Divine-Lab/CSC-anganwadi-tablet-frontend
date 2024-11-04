@@ -1,41 +1,40 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import "./style.css"
-// import questionImageBefore from "../../questions/q1s1 - top.png"
-// import questionImageAfter from "../../questions/q1s1.png"
-// import option1 from "../../questions/q1s1o1.png"
-// import option2 from "../../questions/q1s1o2.png"
-// import option3 from "../../questions/q1s1o3.png"
-// import option4 from "../../questions/q1s1o4.png"
 import { HiSpeakerWave } from "react-icons/hi2";
-// import questionSound from "../../questions/q1s3.mp3"
 import Heading from '../../Common/Heading'
 import Body from '../../Common/Body';
 
 const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
-   // let question = {
-   //    structure: 4,
-   //    questionText: "Select the correct symbol inside the shape.",
-   //    questionSound,
-   //    questionSoundText: "Select...",
-   //    questionOnlyText: "Select the correct symbol",
-   //    questionType: "single",
-   //    questionImage: {
-   //       before: questionImageBefore,
-   //       after: questionImageAfter
-   //    },
-   //    totalOptions: 4,
-   //    option: {
-   //       o1: option1,
-   //       o2: option2,
-   //       o3: option3,
-   //       o4: option4
-   //    }
-   // }
+
+   const containerRef = useRef([]);
+   const imgRef = useRef([]);
 
    const playAudio = () => {
       var aud = document.getElementById("audioQues");
       aud.play();
    }
+   const adjustImageSize = (img, container) => {
+      if (img.naturalWidth > img.naturalHeight) {
+         img.style.width = '100%'; // Landscape style
+      } else {
+         img.style.height = '200px'; // Portrait style
+         img.style.width = 'auto';
+         container.style.width = 'unset';
+      }
+   };
+
+   useEffect(() => {
+      imgRef.current.forEach((img, index) => {
+         const container = containerRef.current[index];
+         if (img && container) {
+            if (img.complete) {
+               adjustImageSize(img, container); // Adjust immediately if loaded
+            } else {
+               img.onload = () => adjustImageSize(img, container); // Adjust on load
+            }
+         }
+      });
+   }, [question])
 
    return (
       <>
@@ -83,11 +82,15 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
             }
             <div className="quesOptionContainer">
                <div className='rowContainer' style={question.totalOptions >= 3 ? { flexWrap: "wrap" } : {}}>
-                  <div className="optionContainer">
-                     <img src={question.option.o1} alt='' className={activeOption !== 1 ? "option" : "option optionActive"} />
-                     <input type="radio" name="q1" id="a1" className='chooseOption' onClick={() => { setActiveOption(1) }} />
-                  </div>
-                  {question.totalOptions >= 2 ? <div className="optionContainer">
+                  {
+                     Array(question?.totalOptions || 2).fill(0).map((_, index) => {
+                        return <div className="optionContainer" ref={(el) => containerRef.current[index] = el}>
+                           <img ref={(el) => imgRef.current[index] = el} src={`${question.option["o" + (index + 1)]}`} alt='' className={activeOption !== (index + 1) ? "option" : "option optionActive"} />
+                           <input type="radio" name={"q" + (index + 1)} id={"a" + (index + 1)} className='chooseOption' onClick={() => { setActiveOption(index + 1) }} />
+                        </div>
+                     })
+                  }
+                  {/* {question.totalOptions >= 2 ? <div className="optionContainer">
                      <img src={question.option.o2} alt='' className={activeOption !== 2 ? "option" : "option optionActive"} />
                      <input type="radio" name="q1" id="a2" className='chooseOption' onClick={() => { setActiveOption(2) }} />
                   </div> : ""}
@@ -98,7 +101,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                   {question.totalOptions >= 4 ? <div className="optionContainer" style={question.totalOptions >= 3 ? { marginTop: "40px" } : {}}>
                      <img src={question.option.o4} alt='' className={activeOption !== 4 ? "option" : "option optionActive"} />
                      <input type="radio" name="q1" id="a2" className='chooseOption' onClick={() => { setActiveOption(4) }} />
-                  </div> : ""}
+                  </div> : ""} */}
                </div>
             </div>
          </Body>

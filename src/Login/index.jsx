@@ -21,7 +21,6 @@ const Login = () => {
    const dispatch = useDispatch();
 
    const submitUserDetails = async () => {
-      setLoading(true);
       if (name === "" || age === "" || rollno === 0 || gender === "" || awcentre === "") {
          toast("Fill all details to proceed", {
             type: "warning",
@@ -31,6 +30,7 @@ const Login = () => {
          })
       }
       else {
+         setLoading(true);
          let userData = {
             name,
             age,
