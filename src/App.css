@@ -1,7 +1,7 @@
 .TabletContainer {
    height: 1050px;
    width: 800px;
-   /* border: 3px solid red; */
+   border: 3px solid red;
 }
 
 .Container {
