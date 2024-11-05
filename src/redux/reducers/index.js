@@ -3,12 +3,11 @@ import { userReducer } from "./userReducer";
 import { answeredQuesReducer, assessmentReducer, currQuesReducer } from "./assessmentReducer";
 // import familyTreeReducer from "./familytree";
 
-const reducers = combineReducers({
+const AllReducer = combineReducers({
    user: userReducer,
    allQuestions: assessmentReducer,
    currentQuestion: currQuesReducer,
    questionAnswered: answeredQuesReducer,
-   // familyTree: familyTreeReducer
 })
 
-export default reducers
+export default AllReducer

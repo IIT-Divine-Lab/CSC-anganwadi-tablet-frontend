@@ -4,21 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import store from "./redux/store"
+import { store, persistor } from "./redux/store"
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from "react-dnd-html5-backend"
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    // <React.StrictMode>
-      <Provider store={store}>
+   <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
          <ToastContainer />
-         <DndProvider backend={HTML5Backend}>
-            <App />
-         </DndProvider>
-      </Provider>
+         <App />
+      </PersistGate>
+   </Provider>
    // </React.StrictMode>
 );
 
