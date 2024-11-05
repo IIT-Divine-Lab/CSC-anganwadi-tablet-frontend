@@ -49,11 +49,12 @@ const QuestionStructures = () => {
       if (question.questionType === "single")
          answer = {
             quesId: questionDet._id,
+            quesCategory: questionDet.quesCategory,
             AnswerMarked: "o" + activeOption
          }
-      else{
+      else {
          let a = []
-         for(let i = 0; i < selected.length; i++){
+         for (let i = 0; i < selected.length; i++) {
             a.push(selected[i])
          }
          answer = {
@@ -77,11 +78,12 @@ const QuestionStructures = () => {
       if (question.questionType === "single")
          answer = {
             quesId: questionDet._id,
+            quesCategory: questionDet.quesCategory,
             AnswerMarked: "o" + activeOption
          }
-      else{
+      else {
          let a = []
-         for(let i = 0; i < selected.length; i++){
+         for (let i = 0; i < selected.length; i++) {
             a.push(selected[i])
          }
          answer = {
