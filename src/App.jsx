@@ -3,22 +3,8 @@ import './App.css';
 import Login from './Login';
 import QuestionStructures from './QuestionStructures';
 import Structure7 from './QuestionStructures/Structure7';
-import { useEffect } from 'react';
 
 function App() {
-
-   useEffect(() => {
-      window.addEventListener("beforeunload", (e) => {
-         e.preventDefault();
-      })
-
-      return () => {
-         window.removeEventListener("beforeunload", (e) => {
-            e.preventDefault();
-         })
-      }
-   }, [])
-
    return (
       <div className='Container'>
          <div className='TabletContainer'>
