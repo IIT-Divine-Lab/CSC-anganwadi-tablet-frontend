@@ -75,6 +75,7 @@ const QuestionStructures = () => {
 
    const submitAssessment = async () => {
       let answer;
+      if (activeOption === undefined && question.questionType !== "multi") return;
       if (question.questionType === "single")
          answer = {
             quesId: questionDet._id,
