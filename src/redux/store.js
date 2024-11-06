@@ -15,6 +15,7 @@ import storage from 'redux-persist/lib/storage';
 
 const EXPIRY_INTERVAL = 120000;
 
+// eslint-disable-next-line
 const expireTransform = createTransform(
    (inboundState) => {
       // Save only once when state is persisted
