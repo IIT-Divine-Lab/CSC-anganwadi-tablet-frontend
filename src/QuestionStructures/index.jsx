@@ -115,6 +115,7 @@ const QuestionStructures = () => {
          }
          answer = {
             quesId: questionDet._id,
+            quesCategory: questionDet.quesCategory,
             AnswerMarked: a
          }
       }
