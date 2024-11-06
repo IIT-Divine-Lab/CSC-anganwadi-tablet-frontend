@@ -12,12 +12,12 @@ export const assessmentReducer = (state = [], { type, payload }) => {
    }
 }
 
-export const currQuesReducer = (state = 0, { type, payload }) => {
+export const currQuesReducer = (state = { counter: 0 }, { type, payload }) => {
    switch (type) {
       case ActionTypes.CURRENT_QUESTION:
-         return payload;
+         return { counter: payload };
       case ActionTypes.CLEAR_ALL:
-         return 0;
+         return { counter: 0 };
       default:
          return state;
    }

@@ -12,7 +12,6 @@ function App() {
                <Routes>
                   <Route path='/' Component={Login} />
                   <Route path='/start-assessment' Component={QuestionStructures} />
-                  <Route path='/struct7' element={<Structure7 />} />
                </Routes>
             </Router>
          </div>

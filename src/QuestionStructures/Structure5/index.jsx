@@ -115,7 +115,6 @@ const Structure5 = ({ question, selected, handleSelection }) => {
    useEffect(() => {
       if (column === 0) {
          let quotient = question.totalOptions / 5;
-         console.log(quotient);
          setColumn(quotient);
       }
    }, [column, question])

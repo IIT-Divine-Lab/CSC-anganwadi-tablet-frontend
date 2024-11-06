@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import apiUrl from '../apiUrl';
 import { setUser } from '../redux/actions/userActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Loading from '../Loading';
 
 const Login = () => {
    const navigate = useNavigate();
+   const user = useSelector((state) => state.user);
    const [serverWorking, setServerWorking] = useState(false);
    const [loading, setLoading] = useState(true);
 
@@ -91,7 +92,8 @@ const Login = () => {
    useEffect(() => {
       if (serverWorking !== true)
          checkServer();
-   }, [checkServer, serverWorking])
+      if (user?.name !== undefined) navigate("/start-assessment/")
+   }, [checkServer, serverWorking, user, navigate])
 
    return (
       <>

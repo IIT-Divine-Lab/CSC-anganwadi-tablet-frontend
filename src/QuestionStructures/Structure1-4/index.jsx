@@ -84,7 +84,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                <div className='rowContainer' style={question.totalOptions >= 3 ? { flexWrap: "wrap" } : {}}>
                   {
                      Array(question?.totalOptions || 2).fill(0).map((_, index) => {
-                        return <div className="optionContainer" ref={(el) => containerRef.current[index] = el}>
+                        return <div key={question.questionText + index} className="optionContainer" ref={(el) => containerRef.current[index] = el}>
                            <img ref={(el) => imgRef.current[index] = el} src={`${question.option["o" + (index + 1)]}`} alt='' className={activeOption !== (index + 1) ? "option" : "option optionActive"} />
                            <input type="radio" name={"q" + (index + 1)} id={"a" + (index + 1)} className='chooseOption' onClick={() => { setActiveOption(index + 1) }} />
                         </div>

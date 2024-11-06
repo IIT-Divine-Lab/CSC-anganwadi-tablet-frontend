@@ -12,6 +12,17 @@ import Button from '../Common/Button';
 import Structure1to4 from './Structure1-4';
 import Structure5 from './Structure5';
 import Structure6 from './Structure6';
+import Tongue from "../Images/tongue.png"
+import Agarbatti from "../Images/Agarbatti.png"
+import Food from "../Images/Food.png"
+import IceBowl from "../Images/IceBowl.png"
+import RedBall from "../Images/RedBall.png"
+import Speaker from "../Images/Speaker.png"
+import Ear from "../Images/ear.png"
+import Eyes from "../Images/eyes.png"
+import Hand from "../Images/hand.png"
+import Nose from "../Images/nose.png"
+import Structure7 from './Structure7';
 
 
 const QuestionStructures = () => {
@@ -19,12 +30,57 @@ const QuestionStructures = () => {
    const navigate = useNavigate()
    const user = useSelector(state => state.user);
    const allQuestions = useSelector(state => state.allQuestions);
-   const counter = useSelector(state => state.currentQuestion);
+   const counter = useSelector(state => state.currentQuestion.counter);
    const questionDet = useSelector(state => state.allQuestions)[counter];
    const question = questionDet !== undefined ? questionDet.question : "";
 
    const questionAnswer = useSelector(state => state.questionAnswered);
    const dispatch = useDispatch();
+
+   const leftColumn = [
+      {
+         val: "जीभ",
+         src: Tongue
+      },
+      {
+         val: "आंख",
+         src: Eyes
+      },
+      {
+         val: "कान",
+         src: Ear
+      },
+      {
+         val: "त्वचा",
+         src: Hand
+      },
+      {
+         val: "नाक",
+         src: Nose
+      },
+   ]
+   const rightColumn = [
+      {
+         val: "Ball",
+         src: RedBall
+      },
+      {
+         val: "Jalebi",
+         src: Food
+      },
+      {
+         val: "Agarbatti",
+         src: Agarbatti
+      },
+      {
+         val: "Ice",
+         src: IceBowl
+      },
+      {
+         val: "Speaker",
+         src: Speaker
+      }
+   ]
 
    const fetchQuestions = useCallback(async () => {
       await axios.post(apiUrl + "assessment/agewise", { ageGroup: user.age })
@@ -110,8 +166,6 @@ const QuestionStructures = () => {
                   setActiveOption();
                   dispatch(resetUser())
                   dispatch(resetAssessment())
-                  console.log(res.data);
-                  console.log(data);
                })
          })
          .catch(({ message }) => {
@@ -145,10 +199,10 @@ const QuestionStructures = () => {
       if (allQuestions.length === 0 && user.name !== undefined)
          fetchQuestions();
    }, [allQuestions, fetchQuestions, user]);
+
    const [lastQuestion, setLastQuestion] = useState(allQuestions.length === 1 ? allQuestions.length - counter : allQuestions.length - counter - 1);
    const [activeOption, setActiveOption] = useState();
 
-   console.log(allQuestions.length - counter - 1);
    return (
       <ParentContainer>
          {
@@ -161,7 +215,9 @@ const QuestionStructures = () => {
                            <Structure5 question={question} selected={selected} handleSelection={handleSelection} />
                            : question.structure === 6 ?
                               <Structure6 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
-                              : ""
+                              : question.structure === 7 ?
+                                 <Structure7 leftColumn={leftColumn} rightColumn={rightColumn} selected={selected} handleSelection={handleSelection} />
+                                 : ""
                   }
                   {
                      lastQuestion !== 0 ?
