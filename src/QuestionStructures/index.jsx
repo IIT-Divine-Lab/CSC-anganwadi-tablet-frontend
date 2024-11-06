@@ -128,6 +128,7 @@ const QuestionStructures = () => {
       dispatch(currentQuestion(counter + 1));
       setLastQuestion(allQuestions.length - counter - 2);
       setActiveOption();
+      setSelected([]);
    }
 
    const submitAssessment = async () => {
