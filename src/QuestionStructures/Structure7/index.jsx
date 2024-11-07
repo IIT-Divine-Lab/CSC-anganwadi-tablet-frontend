@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import Heading from '../../Common/Heading';
 import ParentContainer from '../../Common/ParentContainer';
 
-const Structure7 = ({ leftColumn, rightColumn, selected, handleSelection }) => {
+const Structure7 = ({ leftColumn, rightColumn, question, handleSelection }) => {
 
    const colors = [
       {
@@ -80,7 +80,7 @@ const Structure7 = ({ leftColumn, rightColumn, selected, handleSelection }) => {
    return (
       <ParentContainer>
          <Heading>
-            Match the senses to the objects.
+            {question.questionText}
          </Heading>
          <div style={{ display: 'flex', flexDirection: "column", padding: '20px' }}>
             <div style={{ display: "flex" }}>

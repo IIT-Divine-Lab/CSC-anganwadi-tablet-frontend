@@ -32,10 +32,9 @@
    position: relative;
    width: 200px;
    margin-top: 40px;
-
-   &:not(:nth-child(odd)) {
-      margin-left: 48px;
-   }
+}
+.optionContainer:not(:nth-child(odd)) {
+   margin-left: 48px;
 }
 
 .option {

@@ -13,28 +13,102 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
       var aud = document.getElementById("audioQues");
       aud.play();
    }
-   const adjustImageSize = (img, container) => {
+   const adjustImageSize = (img, container, width, height) => {
       if (img.naturalWidth > img.naturalHeight) {
-         img.style.width = '100%'; // Landscape style
+         img.style.width = width; // Landscape style
+         img.style.height = height;
       } else {
-         img.style.height = '200px'; // Portrait style
-         img.style.width = 'auto';
-         container.style.width = 'unset';
+         img.style.height = height; // Portrait style
+         img.style.width = width;
+         if (container) container.style.width = 'unset';
       }
+      img.style.backgroundColor = "transparent";
    };
 
+   const questionImageRef = useRef();
+
    useEffect(() => {
+      // imgRef.current.forEach((img, index) => {
+      //    const container = containerRef.current[index];
+      //    if (img && container) {
+      //       console.log("1")
+      //       let src = img.src;
+      //       if (!img.complete) {
+      //          img.src = "unset";
+      //          if (img.naturalWidth > img.naturalHeight) {
+      //             console.log("4")
+      //          }
+      //          else {
+      //             console.log("5")
+      //             img.style.width = "150px";
+      //             img.style.height = "200px";
+      //             img.style.bgColor = "red";
+      //          }
+      //       }
+      //       else {
+      //          img.src = src;
+      //          img.onload = () => {
+      //             if (img.naturalWidth > img.naturalHeight) {
+      //                console.log("2")
+      //                adjustImageSize(img, container, "100%"); // Adjust immediately if loaded
+      //             }
+      //             else {
+      //                console.log("3")
+      //                adjustImageSize(img, container, "auto", "200px"); // Adjust immediately if loaded
+      //             }
+      //          }
+      //       }
+      //    }
+      //    console.log("\n\n\n");
+      // });
       imgRef.current.forEach((img, index) => {
          const container = containerRef.current[index];
          if (img && container) {
-            if (img.complete) {
-               adjustImageSize(img, container); // Adjust immediately if loaded
+            // Set placeholder dimensions initially
+            img.style.width = "180px";
+            img.style.height = "220px";
+            img.style.backgroundColor = "lightgray"; // Light gray background for placeholder
+
+            let src = img.src;
+            if (!img.complete) {
+               // Show the placeholder while the image is loading
+               img.src = ""; // Set src to empty to avoid any display issues
+               img.onload = () => {
+                  // Image has finished loading, adjust based on aspect ratio
+                  if (img.naturalWidth - img.naturalHeight > 20) {
+                     console.log("Landscape image loaded");
+                     adjustImageSize(img, container, "100%", "unset"); // Full width
+                  } else {
+                     console.log("Portrait image loaded");
+                     adjustImageSize(img, container, "auto", "200px"); // Fixed height
+                  }
+               };
+               img.src = src; // Re-assign the original source to trigger loading
+               console.log(img.src);
             } else {
-               img.onload = () => adjustImageSize(img, container); // Adjust on load
+               // Image is already loaded, apply the correct size immediately
+               if (img.naturalWidth - img.naturalHeight > 20) {
+                  adjustImageSize(img, container, "100%", "unset");
+               } else {
+                  adjustImageSize(img, container, "auto", "200px");
+               }
             }
          }
       });
-   }, [question])
+
+      if (questionImageRef.current?.complete) {
+         let img = questionImageRef.current;
+         if (img.naturalWidth - img.naturalHeight > 200) {
+            questionImageRef.current.style.height = "200px";
+            questionImageRef.current.style.width = "auto";
+         }
+         else {
+            questionImageRef.current.style.width = "300px";
+            questionImageRef.current.style.height = "auto";
+         }
+      }
+
+   }, [question, questionImageRef])
 
    return (
       <>
@@ -54,7 +128,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
             {
                question.structure === 1 || question.structure === 2 ?
                   <div>
-                     <img style={question.structure === 2 ? { height: "300px", width: "auto" } : {}} className='quesImageAfter' src={question.questionImage.after} alt="" />
+                     <img ref={questionImageRef} className='quesImageAfter' src={question.questionImage.after} alt="" />
                   </div>
                   : question.structure === 4 ?
                      <>
@@ -86,7 +160,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                      Array(question?.totalOptions || 2).fill(0).map((_, index) => {
                         return <div key={question.questionText + index} className="optionContainer" ref={(el) => containerRef.current[index] = el}>
                            <img ref={(el) => imgRef.current[index] = el} src={`${question.option["o" + (index + 1)]}`} alt='' className={activeOption !== (index + 1) ? "option" : "option optionActive"} />
-                           <input type="radio" name={"q" + (index + 1)} id={"a" + (index + 1)} className='chooseOption' onClick={() => { setActiveOption(index + 1) }} />
+                           <input type="radio" name={"q" + (index + 1)} id={"a" + (index + 1)} className='chooseOption' onClick={() => { if (imgRef.current[index].complete) setActiveOption(index + 1); else console.log(imgRef.current[index].complete) }} />
                         </div>
                      })
                   }

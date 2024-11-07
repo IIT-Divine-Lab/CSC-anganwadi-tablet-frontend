@@ -1,11 +1,11 @@
 .TabletContainer {
-   height: 1200px;
-   width: 800px;
+   height: 100%;
+   width: 100%;
    border: 3px solid red;
 }
 
 .Container {
-   height: 100vh;
+   height: 1110px;
    width: 100%;
    display: flex;
    justify-content: center;

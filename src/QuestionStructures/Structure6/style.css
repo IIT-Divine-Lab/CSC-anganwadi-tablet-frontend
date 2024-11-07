@@ -22,16 +22,17 @@
    left: 50%;
    top: 50%;
    transform: translate(-50%, -50%);
+   /* background-color: red; */
 }
 
 .egg {
    width: 55px;
    margin: 22px;
    cursor: pointer;
+}
 
-   &:nth-child(even) {
-      margin-left: 84px;
-   }
+.egg:nth-child(even) {
+   margin-left: 84px;
 }
 
 /* .audioQues {

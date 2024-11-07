@@ -218,7 +218,7 @@ const QuestionStructures = () => {
                            : question.structure === 6 ?
                               <Structure6 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
                               : question.structure === 7 ?
-                                 <Structure7 leftColumn={leftColumn} rightColumn={rightColumn} selected={selected} handleSelection={handleSelection} />
+                                 <Structure7 question={question} leftColumn={leftColumn} rightColumn={rightColumn} handleSelection={handleSelection} />
                                  : ""
                   }
                   {

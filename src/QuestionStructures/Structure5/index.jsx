@@ -1,121 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Heading from '../../Common/Heading'
 import "./style.css"
-// import q2s6o1 from "../../questions/animalFruits/q2s6o1.png"
-// import q2s6o2 from "../../questions/animalFruits/q2s6o2.png"
-// import q2s6o3 from "../../questions/animalFruits/q2s6o3.png"
-// import q2s6o4 from "../../questions/animalFruits/q2s6o4.png"
-// import q2s6o5 from "../../questions/animalFruits/q2s6o5.png"
-// import q2s6o6 from "../../questions/animalFruits/q2s6o6.png"
-// import q2s6o7 from "../../questions/animalFruits/q2s6o7.png"
-// import q2s6o8 from "../../questions/animalFruits/q2s6o8.png"
-// import q2s6o9 from "../../questions/animalFruits/q2s6o9.png"
-// import q2s6o10 from "../../questions/animalFruits/q2s6o10.png"
-// import q2s6o11 from "../../questions/animalFruits/q2s6o11.png"
-// import q2s6o12 from "../../questions/animalFruits/q2s6o12.png"
-// import q2s6o13 from "../../questions/animalFruits/q2s6o13.png"
-// import q2s6o14 from "../../questions/animalFruits/q2s6o14.png"
-// import q2s6o15 from "../../questions/animalFruits/q2s6o15.png"
-// import q2s6o16 from "../../questions/animalFruits/q2s6o16.png"
-// import q2s6o17 from "../../questions/animalFruits/q2s6o17.png"
-// import q2s6o18 from "../../questions/animalFruits/q2s6o18.png"
-// import q2s6o19 from "../../questions/animalFruits/q2s6o19.png"
-// import q2s6o20 from "../../questions/animalFruits/q2s6o20.png"
 
 const Structure5 = ({ question, selected, handleSelection }) => {
    const [column, setColumn] = useState(0);
-
-   // let question = {
-   //    structure: 5,
-   //    correctAnswer: "animals",
-   //    options: [
-   //       {
-   //          type: "animals",
-   //          img: q2s6o1
-   //       },
-   //       {
-   //          type: "transport",
-   //          img: q2s6o2
-   //       },
-   //       {
-   //          type: "fruits",
-   //          img: q2s6o3
-   //       },
-   //       {
-   //          type: "objects",
-   //          img: q2s6o4
-   //       },
-   //       {
-   //          type: "fruits",
-   //          img: q2s6o5
-   //       },
-   //       {
-   //          type: "objects",
-   //          img: q2s6o6
-   //       },
-   //       {
-   //          type: "transport",
-   //          img: q2s6o7
-   //       },
-   //       {
-   //          type: "objects",
-   //          img: q2s6o8
-   //       },
-   //       {
-   //          type: "objects",
-   //          img: q2s6o9
-   //       },
-   //       {
-   //          type: "animals",
-   //          img: q2s6o10
-   //       },
-   //       {
-   //          type: "transport",
-   //          img: q2s6o11
-   //       },
-   //       {
-   //          type: "fruits",
-   //          img: q2s6o12
-   //       },
-   //       {
-   //          type: "fruits",
-   //          img: q2s6o13
-   //       },
-   //       {
-   //          type: "objects",
-   //          img: q2s6o14
-   //       },
-   //       {
-   //          type: "animals",
-   //          img: q2s6o15
-   //       },
-   //       {
-   //          type: "animals",
-   //          img: q2s6o16
-   //       },
-   //       {
-   //          type: "animals",
-   //          img: q2s6o17
-   //       },
-   //       {
-   //          type: "transport",
-   //          img: q2s6o18
-   //       },
-   //       {
-   //          type: "fruits",
-   //          img: q2s6o19
-   //       },
-   //       {
-   //          type: "transport",
-   //          img: q2s6o20
-   //       },
-   //    ]
-   // }
+   const optionContainerRef = useRef();
 
    useEffect(() => {
       if (column === 0) {
-         let quotient = question.totalOptions / 5;
+         let quotient = Math.ceil(question.totalOptions / 5);
          setColumn(quotient);
+      }
+      if (question.totalOptions === 8) {
+         for (let i = 0; i < question.totalOptions; i++) {
+            optionContainerRef.current.children[i].children[0].style.width = "180px";
+            optionContainerRef.current.children[i].children[0].style.height = "180px";
+         }
       }
    }, [column, question])
 
@@ -124,14 +24,14 @@ const Structure5 = ({ question, selected, handleSelection }) => {
          <Heading>
             {question.questionText}
          </Heading>
-         <div className='s5optionContainer' style={{ gridTemplateColumns: `repeat(${column},1fr)` }}>
+         <div className='s5optionContainer' ref={optionContainerRef} style={{ gridTemplateColumns: `repeat(${column},1fr)` }}>
             {
                Array.from({ length: question.totalOptions }, (_, index) => (
                   <div className='s5option' key={index}>
                      <div onClick={() => handleSelection("o" + (index + 1))}>
                         <img
                            src={question.option["o" + (index + 1)]}
-                           className={selected.includes("o" + (index + 1)) ? 'selected' : ''}
+                           className={selected.includes("o" + (index + 1)) ? 'selected' : 'unselected'}
                            alt=""
                         />
                      </div>
