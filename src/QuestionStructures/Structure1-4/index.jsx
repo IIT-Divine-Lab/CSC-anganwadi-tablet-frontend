@@ -107,6 +107,19 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
             questionImageRef.current.style.height = "auto";
          }
       }
+      else {
+         questionImageRef.current.onload = () => {
+            let img = questionImageRef.current;
+            if (img?.naturalWidth - img?.naturalHeight > 200) {
+               questionImageRef.current.style.height = "200px";
+               questionImageRef.current.style.width = "auto";
+            }
+            else {
+               questionImageRef.current.style.width = "300px";
+               questionImageRef.current.style.height = "auto";
+            }
+         }
+      }
 
    }, [question, questionImageRef])
 
