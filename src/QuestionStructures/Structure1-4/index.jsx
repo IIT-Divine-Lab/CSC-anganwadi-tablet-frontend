@@ -99,9 +99,9 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
       if (questionImageRef.current) {
          if (questionImageRef.current?.complete) {
             let img = questionImageRef.current;
-            if (img.naturalWidth - img.naturalHeight > 200) {
-               questionImageRef.current.style.height = "200px";
-               questionImageRef.current.style.width = "auto";
+            if (img.naturalWidth - img.naturalHeight > 150) {
+               questionImageRef.current.style.height = "auto";
+               questionImageRef.current.style.width = "500px";
             }
             else {
                questionImageRef.current.style.width = "300px";
@@ -111,9 +111,9 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
          else {
             questionImageRef.current.onload = () => {
                let img = questionImageRef.current;
-               if (img?.naturalWidth - img?.naturalHeight > 200) {
-                  questionImageRef.current.style.height = "200px";
-                  questionImageRef.current.style.width = "auto";
+               if (img?.naturalWidth - img?.naturalHeight > 150) {
+                  questionImageRef.current.style.height = "auto";
+                  questionImageRef.current.style.width = "500px";
                }
                else {
                   questionImageRef.current.style.width = "300px";
