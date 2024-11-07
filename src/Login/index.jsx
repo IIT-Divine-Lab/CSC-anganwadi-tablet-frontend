@@ -6,13 +6,11 @@ import apiUrl from '../apiUrl';
 import { setUser } from '../redux/actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import Loading from '../Loading';
+import toggleLoading from '../redux/actions/loadingActions';
 
 const Login = () => {
    const navigate = useNavigate();
    const user = useSelector((state) => state.user);
-   const [serverWorking, setServerWorking] = useState(false);
-   const [loading, setLoading] = useState(true);
 
    const [name, setName] = useState("");
    const [age, setAgeGroup] = useState("");
@@ -31,7 +29,7 @@ const Login = () => {
          })
       }
       else {
-         setLoading(true);
+         dispatch(toggleLoading(true))
          let userData = {
             name,
             age,
@@ -43,7 +41,7 @@ const Login = () => {
             .then(({ data }) => {
                if (data.message === "Success") {
                   dispatch(setUser(data.user));
-                  setLoading(false);
+                  dispatch(toggleLoading(false));
                   toast("Registered. Starting assessment", {
                      type: "success",
                      autoClose: 3000,
@@ -53,7 +51,7 @@ const Login = () => {
                   navigate('/start-assessment');
                }
                else {
-                  setLoading(false);
+                  dispatch(toggleLoading(false));
                   console.log("Error in submitting form");
                   toast("Error in registering", {
                      type: "error",
@@ -64,7 +62,7 @@ const Login = () => {
                }
             })
             .catch(({ message }) => {
-               setLoading(false);
+               dispatch(toggleLoading(false));
                toast(message, {
                   type: "error",
                   autoClose: 3000,
@@ -75,75 +73,55 @@ const Login = () => {
       }
    }
 
-   const checkServer = useCallback(async () => {
-      let interval = setInterval(() => {
-         axios.get(apiUrl)
-            .then(() => {
-               setServerWorking(true);
-               setLoading(false);
-               clearInterval(interval);
-            })
-            .catch(() => {
-               setServerWorking(false);
-            })
-      }, 2000);
-   }, [])
-
    useEffect(() => {
-      if (serverWorking !== true)
-         checkServer();
       if (user?.name !== undefined) navigate("/start-assessment/")
-   }, [checkServer, serverWorking, user, navigate])
+   }, [user, navigate])
 
    return (
       <>
-         {
-            loading ?
-               <Loading />
-               :
-               <div className='form-container'>
-                  <div className="form-subcontainer">
-                     <div className="form-heading-container">
-                        <h1 className="form-heading">Welcome 👋</h1>
-                        <h3 className="form-subheading">Today is a new day. It's your day. You shape it.</h3>
-                     </div>
-                     <div className="form" id='userForm'>
-                        <div className='form-field-container'>
-                           <label className="form-field-label">Name</label>
-                           <input type="text" value={name} onChange={(e) => setName(e.currentTarget.value)} name="name" id="name" className="form-field" placeholder='Enter your full name' />
-                        </div>
-                        <div className='form-field-container'>
-                           <label className="form-field-label">Age Group</label>
-                           <select name="ageGroup" id="ageGroup" className='form-field' value={age} onChange={(e) => setAgeGroup(e.currentTarget.value)}>
-                              <option value="none">Select your age group</option>
-                              <option value="3-4">3 - 4</option>
-                              <option value="4-5">4 - 5</option>
-                              <option value="5-6">5 - 6</option>
-                           </select>
-                        </div>
-                        <div className='form-field-container'>
-                           <label className="form-field-label">Roll Number</label>
-                           <input type="number" value={rollno} onChange={(e) => setRollno(e.currentTarget.value)} name="rollno" id="rollno" className="form-field" placeholder='Enter your roll number' />
-                        </div>
-                        <div className='form-field-container'>
-                           <label className="form-field-label">Gender</label>
-                           <select name="gender" id="gender" className='form-field' value={gender} onChange={(e) => setGender(e.currentTarget.value)}>
-                              <option value="none">Select your gender</option>
-                              <option value="male">Male</option>
-                              <option value="female">Female</option>
-                           </select>
-                        </div>
-                        <div className='form-field-container'>
-                           <label className="form-field-label">Anganwadi Center</label>
-                           <input type="text" name="awcentre" value={awcentre} onChange={(e) => setAwCentre(e.currentTarget.value)} id="awcentre" className="form-field" placeholder='Enter your Anganwadi Centre' />
-                        </div>
-                     </div>
-                     <div className="form-submit" onClick={submitUserDetails}>
-                        Start Assessment
-                     </div>
+
+         <div className='form-container'>
+            <div className="form-subcontainer">
+               <div className="form-heading-container">
+                  <h1 className="form-heading">Welcome 👋</h1>
+                  <h3 className="form-subheading">Today is a new day. It's your day. You shape it.</h3>
+               </div>
+               <div className="form" id='userForm'>
+                  <div className='form-field-container'>
+                     <label className="form-field-label">Name</label>
+                     <input type="text" value={name} onChange={(e) => setName(e.currentTarget.value)} name="name" id="name" className="form-field" placeholder='Enter your full name' />
+                  </div>
+                  <div className='form-field-container'>
+                     <label className="form-field-label">Age Group</label>
+                     <select name="ageGroup" id="ageGroup" className='form-field' value={age} onChange={(e) => setAgeGroup(e.currentTarget.value)}>
+                        <option value="none">Select your age group</option>
+                        <option value="3-4">3 - 4</option>
+                        <option value="4-5">4 - 5</option>
+                        <option value="5-6">5 - 6</option>
+                     </select>
+                  </div>
+                  <div className='form-field-container'>
+                     <label className="form-field-label">Roll Number</label>
+                     <input type="number" value={rollno} onChange={(e) => setRollno(e.currentTarget.value)} name="rollno" id="rollno" className="form-field" placeholder='Enter your roll number' />
+                  </div>
+                  <div className='form-field-container'>
+                     <label className="form-field-label">Gender</label>
+                     <select name="gender" id="gender" className='form-field' value={gender} onChange={(e) => setGender(e.currentTarget.value)}>
+                        <option value="none">Select your gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                     </select>
+                  </div>
+                  <div className='form-field-container'>
+                     <label className="form-field-label">Anganwadi Center</label>
+                     <input type="text" name="awcentre" value={awcentre} onChange={(e) => setAwCentre(e.currentTarget.value)} id="awcentre" className="form-field" placeholder='Enter your Anganwadi Centre' />
                   </div>
                </div>
-         }
+               <div className="form-submit" onClick={submitUserDetails}>
+                  Start Assessment
+               </div>
+            </div>
+         </div>
       </>
    )
 }

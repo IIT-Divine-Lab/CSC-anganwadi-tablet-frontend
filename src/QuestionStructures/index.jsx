@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
 import apiUrl from '../apiUrl';
@@ -23,10 +23,15 @@ import Eyes from "../Images/eyes.png"
 import Hand from "../Images/hand.png"
 import Nose from "../Images/nose.png"
 import Structure7 from './Structure7';
-
+import Structure8 from './Structure8';
+import { uploadFile } from '@uploadcare/upload-client'
+import toggleLoading from '../redux/actions/loadingActions';
 
 const QuestionStructures = () => {
    const [selected, setSelected] = useState([]);
+   // State to control visibility of layers (e.g., grid lines or others you may want to exclude)
+   const [showGrid, setShowGrid] = useState(true);
+   const stageRef = useRef(null);
    const navigate = useNavigate()
    const user = useSelector(state => state.user);
    const allQuestions = useSelector(state => state.allQuestions);
@@ -100,23 +105,36 @@ const QuestionStructures = () => {
    }, [dispatch, user]);
 
    const saveQuestion = async () => {
+
       let answer;
-      if (activeOption === undefined && question.questionType !== "multi") return;
-      if (question.questionType === "single")
-         answer = {
-            quesId: questionDet._id,
-            quesCategory: questionDet.quesCategory,
-            AnswerMarked: "o" + activeOption
+      if (activeOption === undefined && question.questionType === "single") return;
+      if (question.structure !== 8) {
+         if (question.questionType === "single")
+            answer = {
+               quesId: questionDet._id,
+               quesCategory: questionDet.quesCategory,
+               AnswerMarked: "o" + activeOption
+            }
+         else {
+            let a = []
+            for (let i = 0; i < selected.length; i++) {
+               a.push(selected[i])
+            }
+            answer = {
+               quesId: questionDet._id,
+               quesCategory: questionDet.quesCategory,
+               AnswerMarked: a
+            }
          }
+      }
       else {
-         let a = []
-         for (let i = 0; i < selected.length; i++) {
-            a.push(selected[i])
-         }
+         dispatch(toggleLoading(true))
+         let answerImageDrawn = handleSaveAsImage()
+         dispatch(toggleLoading(false))
          answer = {
             quesId: questionDet._id,
             quesCategory: questionDet.quesCategory,
-            AnswerMarked: a
+            AnswerMarked: answerImageDrawn
          }
       }
       if (questionAnswer.questions.length === 0) {
@@ -133,22 +151,34 @@ const QuestionStructures = () => {
 
    const submitAssessment = async () => {
       let answer;
-      if (activeOption === undefined && question.questionType !== "multi") return;
-      if (question.questionType === "single")
-         answer = {
-            quesId: questionDet._id,
-            quesCategory: questionDet.quesCategory,
-            AnswerMarked: "o" + activeOption
+      if (activeOption === undefined && question.questionType === "single") return;
+      if (question.structure !== 8) {
+         if (question.questionType === "single")
+            answer = {
+               quesId: questionDet._id,
+               quesCategory: questionDet.quesCategory,
+               AnswerMarked: "o" + activeOption
+            }
+         else {
+            let a = []
+            for (let i = 0; i < selected.length; i++) {
+               a.push(selected[i])
+            }
+            answer = {
+               quesId: questionDet._id,
+               quesCategory: questionDet.quesCategory,
+               AnswerMarked: a
+            }
          }
+      }
       else {
-         let a = []
-         for (let i = 0; i < selected.length; i++) {
-            a.push(selected[i])
-         }
+         dispatch(toggleLoading(true))
+         let answerImageDrawn = handleSaveAsImage()
+         dispatch(toggleLoading(false))
          answer = {
             quesId: questionDet._id,
             quesCategory: questionDet.quesCategory,
-            AnswerMarked: a
+            AnswerMarked: answerImageDrawn
          }
       }
       if (questionAnswer.questions.length === 0) {
@@ -164,7 +194,7 @@ const QuestionStructures = () => {
             await axios.patch(apiUrl + "user/" + user._id, {
                assessId: data.question._id
             })
-               .then((res) => {
+               .then(() => {
                   setActiveOption();
                   dispatch(resetUser())
                   dispatch(resetAssessment())
@@ -205,6 +235,52 @@ const QuestionStructures = () => {
    const [lastQuestion, setLastQuestion] = useState(allQuestions.length === 1 ? allQuestions.length - counter : allQuestions.length - counter - 1);
    const [activeOption, setActiveOption] = useState();
 
+
+   function dataURLToBlob(dataURL) {
+      // Split the data URL to get the base64 string
+      const [prefix, base64Data] = dataURL.split(',');
+      const byteString = atob(base64Data); // Decode the base64 data
+
+      // Create an array of bytes
+      const byteArray = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++) {
+         byteArray[i] = byteString.charCodeAt(i);
+      }
+
+      // Determine the MIME type from the prefix (e.g., "image/png")
+      const mimeType = prefix.match(/:(.*?);/)[1];
+
+      // Create and return a Blob object
+      return new Blob([byteArray], { type: mimeType });
+   }
+
+   const handleSaveAsImage = () => {
+      // Show all layers (without grid lines) before saving
+      setShowGrid(false);
+
+      // Use a timeout to allow the state change to reflect in the UI
+      setTimeout(async () => {
+         const dataURL = dataURLToBlob(stageRef.current?.toDataURL());
+         dispatch(toggleLoading(true))
+         const result = await uploadFile(
+            dataURL,
+            {
+               publicKey: 'f0b48dbfeaff1298ebed',
+               store: 'auto',
+               metadata: {
+                  subsystem: 'js-client',
+                  pet: 'cat'
+               }
+            }
+         )
+         // Optionally, show grid again after saving
+         dispatch(toggleLoading(false))
+         setShowGrid(true);
+
+         return result.cdnUrl
+      }, 10); // Small delay to allow React to update the visibility
+   };
+
    return (
       <ParentContainer>
          {
@@ -219,7 +295,9 @@ const QuestionStructures = () => {
                               <Structure6 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
                               : question.structure === 7 ?
                                  <Structure7 question={question} leftColumn={leftColumn} rightColumn={rightColumn} handleSelection={handleSelection} />
-                                 : ""
+                                 : question.structure === 8 ?
+                                    <Structure8 stageRef={stageRef} showGrid={showGrid} question={question} />
+                                    : ""
                   }
                   {
                      lastQuestion !== 0 ?
