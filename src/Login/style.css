@@ -41,9 +41,10 @@
    display: flex;
    flex-direction: column;
    margin-top: 24px;
+}
 
-   /* &:not(:first-child) {
-   } */
+.form-field-container:first-child {
+   margin-top: 0;
 }
 
 .form-field {
