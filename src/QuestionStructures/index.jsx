@@ -128,9 +128,7 @@ const QuestionStructures = () => {
          }
       }
       else {
-         dispatch(toggleLoading(true))
-         let answerImageDrawn = handleSaveAsImage()
-         dispatch(toggleLoading(false))
+         let answerImageDrawn = await handleSaveAsImage();
          answer = {
             quesId: questionDet._id,
             quesCategory: questionDet.quesCategory,
@@ -172,9 +170,7 @@ const QuestionStructures = () => {
          }
       }
       else {
-         dispatch(toggleLoading(true))
-         let answerImageDrawn = handleSaveAsImage()
-         dispatch(toggleLoading(false))
+         let answerImageDrawn = await handleSaveAsImage();
          answer = {
             quesId: questionDet._id,
             quesCategory: questionDet.quesCategory,
@@ -254,31 +250,29 @@ const QuestionStructures = () => {
       return new Blob([byteArray], { type: mimeType });
    }
 
-   const handleSaveAsImage = () => {
+   const handleSaveAsImage = async () => {
       // Show all layers (without grid lines) before saving
       setShowGrid(false);
 
       // Use a timeout to allow the state change to reflect in the UI
-      setTimeout(async () => {
-         const dataURL = dataURLToBlob(stageRef.current?.toDataURL());
-         dispatch(toggleLoading(true))
-         const result = await uploadFile(
-            dataURL,
-            {
-               publicKey: 'f0b48dbfeaff1298ebed',
-               store: 'auto',
-               metadata: {
-                  subsystem: 'js-client',
-                  pet: 'cat'
-               }
+      const dataURL = dataURLToBlob(stageRef.current?.toDataURL());
+      dispatch(toggleLoading(true))
+      const result = await uploadFile(
+         dataURL,
+         {
+            publicKey: 'f0b48dbfeaff1298ebed',
+            store: 'auto',
+            metadata: {
+               subsystem: 'js-client',
+               pet: 'cat'
             }
-         )
-         // Optionally, show grid again after saving
-         dispatch(toggleLoading(false))
-         setShowGrid(true);
+         }
+      )
+      // Optionally, show grid again after saving
+      dispatch(toggleLoading(false))
+      setShowGrid(true);
 
-         return result.cdnUrl
-      }, 10); // Small delay to allow React to update the visibility
+      return result.cdnUrl
    };
 
    return (
