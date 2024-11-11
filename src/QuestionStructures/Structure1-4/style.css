@@ -13,28 +13,26 @@
 }
 
 .quesOptionContainer {
-   /* margin-bottom: 60px; */
-   width: 80%;
-   /* min-height: 360px; */
    display: flex;
+   margin-top: 30px;
    flex-direction: column;
    justify-content: center;
    align-items: center;
 }
 
 .rowContainer {
-   display: flex;
-   align-items: center;
-   justify-content: center;
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 0;
 }
 
 .optionContainer {
    position: relative;
-   width: 200px;
-   margin-top: 40px;
+   width: 260px;
+   margin-top: 30px;
 }
 .optionContainer:not(:nth-child(odd)) {
-   margin-left: 48px;
+   margin-left: 28px;
 }
 
 .option {

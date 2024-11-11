@@ -28,39 +28,6 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
    const questionImageRef = useRef();
 
    useEffect(() => {
-      // imgRef.current.forEach((img, index) => {
-      //    const container = containerRef.current[index];
-      //    if (img && container) {
-      //       console.log("1")
-      //       let src = img.src;
-      //       if (!img.complete) {
-      //          img.src = "unset";
-      //          if (img.naturalWidth > img.naturalHeight) {
-      //             console.log("4")
-      //          }
-      //          else {
-      //             console.log("5")
-      //             img.style.width = "150px";
-      //             img.style.height = "200px";
-      //             img.style.bgColor = "red";
-      //          }
-      //       }
-      //       else {
-      //          img.src = src;
-      //          img.onload = () => {
-      //             if (img.naturalWidth > img.naturalHeight) {
-      //                console.log("2")
-      //                adjustImageSize(img, container, "100%"); // Adjust immediately if loaded
-      //             }
-      //             else {
-      //                console.log("3")
-      //                adjustImageSize(img, container, "auto", "200px"); // Adjust immediately if loaded
-      //             }
-      //          }
-      //       }
-      //    }
-      //    console.log("\n\n\n");
-      // });
       imgRef.current.forEach((img, index) => {
          const container = containerRef.current[index];
          if (img && container) {
@@ -80,7 +47,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                      adjustImageSize(img, container, "100%", "unset"); // Full width
                   } else {
                      console.log("Portrait image loaded");
-                     adjustImageSize(img, container, "auto", "200px"); // Fixed height
+                     adjustImageSize(img, container, "auto", "250px"); // Fixed height
                   }
                };
                img.src = src; // Re-assign the original source to trigger loading
@@ -90,7 +57,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                if (img.naturalWidth - img.naturalHeight > 20) {
                   adjustImageSize(img, container, "100%", "unset");
                } else {
-                  adjustImageSize(img, container, "auto", "200px");
+                  adjustImageSize(img, container, "auto", "250px");
                }
             }
          }
@@ -104,7 +71,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                questionImageRef.current.style.width = "500px";
             }
             else {
-               questionImageRef.current.style.width = "300px";
+               questionImageRef.current.style.width = "35vh";
                questionImageRef.current.style.height = "auto";
             }
          }
@@ -116,7 +83,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                   questionImageRef.current.style.width = "500px";
                }
                else {
-                  questionImageRef.current.style.width = "300px";
+                  questionImageRef.current.style.width = "35vh";
                   questionImageRef.current.style.height = "auto";
                }
             }
@@ -179,18 +146,6 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                         </div>
                      })
                   }
-                  {/* {question.totalOptions >= 2 ? <div className="optionContainer">
-                     <img src={question.option.o2} alt='' className={activeOption !== 2 ? "option" : "option optionActive"} />
-                     <input type="radio" name="q1" id="a2" className='chooseOption' onClick={() => { setActiveOption(2) }} />
-                  </div> : ""}
-                  {question.totalOptions >= 3 ? <div className="optionContainer" style={question.totalOptions >= 3 ? { marginLeft: "0px", marginTop: "40px" } : {}}>
-                     <img src={question.option.o3} alt='' className={activeOption !== 3 ? "option" : "option optionActive"} />
-                     <input type="radio" name="q1" id="a3" className='chooseOption' onClick={() => { setActiveOption(3) }} />
-                  </div> : ""}
-                  {question.totalOptions >= 4 ? <div className="optionContainer" style={question.totalOptions >= 3 ? { marginTop: "40px" } : {}}>
-                     <img src={question.option.o4} alt='' className={activeOption !== 4 ? "option" : "option optionActive"} />
-                     <input type="radio" name="q1" id="a2" className='chooseOption' onClick={() => { setActiveOption(4) }} />
-                  </div> : ""} */}
                </div>
             </div>
          </Body>

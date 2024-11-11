@@ -22,6 +22,11 @@ import Ear from "../Images/ear.png"
 import Eyes from "../Images/eyes.png"
 import Hand from "../Images/hand.png"
 import Nose from "../Images/nose.png"
+import Candle from "../Images/candle.png"
+import Icecream from "../Images/icecream.png"
+import Perfume from "../Images/perfume.png"
+import Teddy from "../Images/teddyBear.png"
+import DemoSpeaker from "../Images/demoSpeaker.png"
 import Structure7 from './Structure7';
 import Structure8 from './Structure8';
 import { uploadFile } from '@uploadcare/upload-client'
@@ -42,50 +47,98 @@ const QuestionStructures = () => {
    const questionAnswer = useSelector(state => state.questionAnswered);
    const dispatch = useDispatch();
 
-   const leftColumn = [
-      {
-         val: "जीभ",
-         src: Tongue
-      },
-      {
-         val: "आंख",
-         src: Eyes
-      },
-      {
-         val: "कान",
-         src: Ear
-      },
-      {
-         val: "त्वचा",
-         src: Hand
-      },
-      {
-         val: "नाक",
-         src: Nose
-      },
-   ]
-   const rightColumn = [
-      {
-         val: "Ball",
-         src: RedBall
-      },
-      {
-         val: "Jalebi",
-         src: Food
-      },
-      {
-         val: "Agarbatti",
-         src: Agarbatti
-      },
-      {
-         val: "Ice",
-         src: IceBowl
-      },
-      {
-         val: "Speaker",
-         src: Speaker
-      }
-   ]
+   const leftColumn = {
+      Demo: [
+         {
+            val: "त्वचा",
+            src: Hand
+         },
+         {
+            val: "आंख",
+            src: Eyes
+         },
+         {
+            val: "कान",
+            src: Ear
+         },
+         {
+            val: "नाक",
+            src: Nose
+         },
+         {
+            val: "जीभ",
+            src: Tongue
+         }
+      ],
+      Ques: [
+         {
+            val: "जीभ",
+            src: Tongue
+         },
+         {
+            val: "आंख",
+            src: Eyes
+         },
+         {
+            val: "कान",
+            src: Ear
+         },
+         {
+            val: "त्वचा",
+            src: Hand
+         },
+         {
+            val: "नाक",
+            src: Nose
+         }
+      ]
+   }
+   const rightColumn = {
+      Demo: [
+         {
+            val: "Candle",
+            src: Candle
+         },
+         {
+            val: "IceCream",
+            src: Icecream
+         },
+         {
+            val: "Perfume",
+            src: Perfume
+         },
+         {
+            val: "Teddy",
+            src: Teddy
+         },
+         {
+            val: "Speaker",
+            src: DemoSpeaker
+         }
+      ],
+      Ques: [
+         {
+            val: "Ball",
+            src: RedBall
+         },
+         {
+            val: "Jalebi",
+            src: Food
+         },
+         {
+            val: "Agarbatti",
+            src: Agarbatti
+         },
+         {
+            val: "Ice",
+            src: IceBowl
+         },
+         {
+            val: "Speaker",
+            src: Speaker
+         }
+      ]
+   }
 
    const fullScreenMode = () => {
       const element = document.documentElement;
@@ -291,10 +344,13 @@ const QuestionStructures = () => {
 
    return (
       <ParentContainer>
+         <div style={{ width: "100%", textAlign: "right", fontSize: "20px", height: "max-content", fontWeight: "600", color: questionDet?.quesCategory?.categoryName && questionDet?.quesCategory?.categoryName.includes("AAA") ? "#aaa" : "#fff" }}>
+            Demo
+         </div>
          {
             question !== undefined ?
                <>
-                  <div style={{ height: "90vh", paddingTop: "5vh" }}>
+                  <div style={{ height: "87vh", paddingTop: "5vh" }}>
                      {
                         question.structure >= 1 && question.structure <= 4 ?
                            <Structure1to4 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
@@ -303,13 +359,13 @@ const QuestionStructures = () => {
                               : question.structure === 6 ?
                                  <Structure6 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
                                  : question.structure === 7 ?
-                                    <Structure7 question={question} leftColumn={leftColumn} rightColumn={rightColumn} handleSelection={handleSelection} />
+                                    <Structure7 question={question} leftColumn={questionDet?.quesCategory?.categoryName && questionDet?.quesCategory?.categoryName.includes("AAA") ? leftColumn.Demo : leftColumn.Ques} rightColumn={questionDet?.quesCategory?.categoryName && questionDet?.quesCategory?.categoryName.includes("AAA") ? rightColumn.Demo : rightColumn.Ques} handleSelection={handleSelection} />
                                     : question.structure === 8 ?
                                        <Structure8 stageRef={stageRef} showGrid={showGrid} question={question} />
                                        : ""
                      }
                   </div>
-                  <div style={{ height: "10vh" }}>
+                  <div style={{ height: "7vh" }}>
                      {
                         lastQuestion !== 0 ?
                            <Button className='submitBtn' onClick={saveQuestion}>Next</Button>
