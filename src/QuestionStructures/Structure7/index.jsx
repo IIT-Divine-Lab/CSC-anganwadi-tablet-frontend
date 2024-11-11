@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react'
 import Heading from '../../Common/Heading';
-import ParentContainer from '../../Common/ParentContainer';
 
 const Structure7 = ({ leftColumn, rightColumn, question, handleSelection }) => {
 

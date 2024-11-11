@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import "./style.css"
 import Heading from '../../Common/Heading';
-import ParentContainer from '../../Common/ParentContainer';
 import Body from '../../Common/Body';
 import { Stage, Layer, Line, Rect, Circle } from 'react-konva';
 import { ImUndo } from "react-icons/im";
