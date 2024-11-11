@@ -78,7 +78,7 @@ const Structure7 = ({ leftColumn, rightColumn, question, handleSelection }) => {
    }
 
    return (
-      <ParentContainer>
+      <>
          <Heading>
             {question.questionText}
          </Heading>
@@ -185,7 +185,7 @@ const Structure7 = ({ leftColumn, rightColumn, question, handleSelection }) => {
                </div>
             </div>
          </div>
-      </ParentContainer>
+      </>
    )
 }
 

@@ -104,7 +104,7 @@ const Structure8 = ({ question, showGrid, stageRef }) => {
    };
 
    return (
-      <ParentContainer>
+      <>
          <Heading>
             {question.questionText}
          </Heading>
@@ -171,7 +171,7 @@ const Structure8 = ({ question, showGrid, stageRef }) => {
                </div>
             </div>
          </Body>
-      </ParentContainer>
+      </>
    )
 }
 

@@ -87,6 +87,19 @@ const QuestionStructures = () => {
       }
    ]
 
+   const fullScreenMode = () => {
+      const element = document.documentElement;
+      if (element.requestFullscreen) {
+         element.requestFullscreen();
+      } else if (element.mozRequestFullScreen) { // For Firefox
+         element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) { // For Safari
+         element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) { // For IE/Edge
+         element.msRequestFullscreen();
+      }
+   }
+
    const fetchQuestions = useCallback(async () => {
       await axios.post(apiUrl + "assessment/agewise", { ageGroup: user.age })
          .then(({ data }) => {
@@ -141,6 +154,7 @@ const QuestionStructures = () => {
       else {
          dispatch(questionAnswered(answer));
       }
+      fullScreenMode();
       dispatch(currentQuestion(counter + 1));
       setLastQuestion(allQuestions.length - counter - 2);
       setActiveOption();
@@ -280,25 +294,29 @@ const QuestionStructures = () => {
          {
             question !== undefined ?
                <>
-                  {
-                     question.structure >= 1 && question.structure <= 4 ?
-                        <Structure1to4 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
-                        : question.structure === 5 ?
-                           <Structure5 question={question} selected={selected} handleSelection={handleSelection} />
-                           : question.structure === 6 ?
-                              <Structure6 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
-                              : question.structure === 7 ?
-                                 <Structure7 question={question} leftColumn={leftColumn} rightColumn={rightColumn} handleSelection={handleSelection} />
-                                 : question.structure === 8 ?
-                                    <Structure8 stageRef={stageRef} showGrid={showGrid} question={question} />
-                                    : ""
-                  }
-                  {
-                     lastQuestion !== 0 ?
-                        <Button className='submitBtn' onClick={saveQuestion}>Next</Button>
-                        :
-                        <Button className='submitBtn' onClick={submitAssessment}>Submit</Button>
-                  }
+                  <div style={{ height: "90vh", paddingTop: "5vh" }}>
+                     {
+                        question.structure >= 1 && question.structure <= 4 ?
+                           <Structure1to4 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
+                           : question.structure === 5 ?
+                              <Structure5 question={question} selected={selected} handleSelection={handleSelection} />
+                              : question.structure === 6 ?
+                                 <Structure6 question={question} activeOption={activeOption} setActiveOption={setActiveOption} />
+                                 : question.structure === 7 ?
+                                    <Structure7 question={question} leftColumn={leftColumn} rightColumn={rightColumn} handleSelection={handleSelection} />
+                                    : question.structure === 8 ?
+                                       <Structure8 stageRef={stageRef} showGrid={showGrid} question={question} />
+                                       : ""
+                     }
+                  </div>
+                  <div style={{ height: "10vh" }}>
+                     {
+                        lastQuestion !== 0 ?
+                           <Button className='submitBtn' onClick={saveQuestion}>Next</Button>
+                           :
+                           <Button className='submitBtn' onClick={submitAssessment}>Submit</Button>
+                     }
+                  </div>
                </>
                : <></>
          }

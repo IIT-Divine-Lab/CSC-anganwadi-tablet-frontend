@@ -19,6 +19,19 @@ const Login = () => {
    const [awcentre, setAwCentre] = useState("");
    const dispatch = useDispatch();
 
+   const fullScreenMode = () => {
+      const element = document.documentElement;
+      if (element.requestFullscreen) {
+         element.requestFullscreen();
+      } else if (element.mozRequestFullScreen) { // For Firefox
+         element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) { // For Safari
+         element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) { // For IE/Edge
+         element.msRequestFullscreen();
+      }
+   }
+
    const submitUserDetails = async () => {
       if (name === "" || age === "" || rollno === 0 || gender === "" || awcentre === "") {
          toast("Fill all details to proceed", {
@@ -48,6 +61,7 @@ const Login = () => {
                      theme: "colored",
                      hideProgressBar: true
                   })
+                  fullScreenMode();
                   navigate('/start-assessment');
                }
                else {
