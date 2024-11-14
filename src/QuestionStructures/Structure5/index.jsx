@@ -4,7 +4,7 @@ import "./style.css"
 
 const Structure5 = ({ question, selected, handleSelection }) => {
    const [column, setColumn] = useState(0);
-   const optionContainerRef = useRef();
+   const optionContainerRef = useRef([]);
 
    useEffect(() => {
       if (column === 0) {
@@ -16,6 +16,12 @@ const Structure5 = ({ question, selected, handleSelection }) => {
             optionContainerRef.current.children[i].children[0].style.width = "180px";
             optionContainerRef.current.children[i].children[0].style.height = "180px";
          }
+      }
+      else if (question.totalOptions === 10) {
+         [2, 3, 6, 7, 10].forEach((val) => {
+            optionContainerRef.current.children[val - 1].children[0].style.width = "120px";
+            optionContainerRef.current.children[val - 1].children[0].style.height = "120px";
+         })
       }
    }, [column, question])
 

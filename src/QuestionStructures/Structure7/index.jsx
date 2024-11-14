@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Heading from '../../Common/Heading';
 
 const Structure7 = ({ leftColumn, rightColumn, question, handleSelection }) => {
@@ -75,6 +75,15 @@ const Structure7 = ({ leftColumn, rightColumn, question, handleSelection }) => {
          setSelectedLeft(null);
       }
    }
+
+   useEffect(() => {
+      if(question){
+         setMatchedLeft([]);
+         setMatchedRight([]);
+         setMatches([]);
+         setSelectedLeft(null);
+      }
+   }, [question])
 
    return (
       <>

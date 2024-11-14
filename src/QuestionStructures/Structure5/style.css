@@ -27,10 +27,22 @@
    align-items: center;
 }
 
-.s5option:nth-child(2) > div,
-.s5option:nth-child(3) > div,
-.s5option:nth-child(6) > div,
-.s5option:nth-child(7) > div,
+.s5option:nth-child(2) > div {
+   width: 120px;
+   height: 120px;
+}
+.s5option:nth-child(3) > div {
+   width: 120px;
+   height: 120px;
+}
+.s5option:nth-child(6) > div {
+   width: 120px;
+   height: 120px;
+}
+.s5option:nth-child(7) > div {
+   width: 120px;
+   height: 120px;
+}
 .s5option:nth-child(10) > div {
    width: 120px;
    height: 120px;
