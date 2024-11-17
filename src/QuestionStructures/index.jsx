@@ -174,6 +174,7 @@ const QuestionStructures = () => {
 
       let answer;
       if (activeOption === undefined && question.questionType === "single") return;
+      if (selected.length === 0 && question.questionType === "multi") return;
       if (question.structure !== 8) {
          if (question.questionType === "single")
             answer = {
@@ -217,6 +218,7 @@ const QuestionStructures = () => {
    const submitAssessment = async () => {
       let answer;
       if (activeOption === undefined && question.questionType === "single") return;
+      if (selected.length === 0 && question.questionType === "multi") return;
       if (question.structure !== 8) {
          if (question.questionType === "single")
             answer = {

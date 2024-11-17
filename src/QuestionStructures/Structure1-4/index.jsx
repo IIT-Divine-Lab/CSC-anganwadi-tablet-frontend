@@ -33,7 +33,7 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
          if (img && container) {
             // Set placeholder dimensions initially
             img.style.width = "180px";
-            img.style.height = "220px";
+            img.style.height = "250px";
             img.style.backgroundColor = "lightgray"; // Light gray background for placeholder
 
             let src = img.src;
@@ -43,15 +43,12 @@ const Structure1to4 = ({ setActiveOption, activeOption, question }) => {
                img.onload = () => {
                   // Image has finished loading, adjust based on aspect ratio
                   if (img.naturalWidth - img.naturalHeight > 20) {
-                     console.log("Landscape image loaded");
                      adjustImageSize(img, container, "100%", "unset"); // Full width
                   } else {
-                     console.log("Portrait image loaded");
                      adjustImageSize(img, container, "auto", "250px"); // Fixed height
                   }
                };
                img.src = src; // Re-assign the original source to trigger loading
-               console.log(img.src);
             } else {
                // Image is already loaded, apply the correct size immediately
                if (img.naturalWidth - img.naturalHeight > 20) {
